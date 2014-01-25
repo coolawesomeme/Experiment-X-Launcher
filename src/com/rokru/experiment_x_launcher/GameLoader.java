@@ -1,0 +1,113 @@
+package com.rokru.experiment_x_launcher;
+
+import java.awt.Font;
+import java.awt.Point;
+import java.io.File;
+import java.io.IOException;
+
+import javax.swing.JLabel;
+import javax.swing.JOptionPane;
+import javax.swing.JProgressBar;
+import javax.swing.SwingUtilities;
+
+public class GameLoader extends Launcher{
+
+	private static final long serialVersionUID = 1L;
+
+	private JProgressBar progress = new JProgressBar();
+	private JLabel loadingLabel = new JLabel();
+	
+	protected static int menuID = 3;
+	
+	public GameLoader() {
+		super(menuID);
+		setDefaultCloseOperation(EXIT_ON_CLOSE);
+		loadingLabel = new JLabel("Loading...", JLabel.CENTER);
+		loadingLabel.setBounds(40, 40, 820, 20);
+		loadingLabel.setFont(Launcher.getDefaultFont(Font.BOLD, 15));
+		mainContentLabel.add(loadingLabel);
+		
+		progress.setMaximum(100);
+		progress.setMinimum(0);
+		
+		progress.setBounds(40, 70, 820 , 15);
+		
+		mainContentLabel.add(progress);
+		
+		mainContentLabel.repaint();
+		
+		load();
+	}
+	
+	public GameLoader(Point point) {
+		super(point, menuID);
+		loadingLabel = new JLabel("Loading... 0%", JLabel.CENTER);
+		loadingLabel.setBounds(40, 180, 820, 25);
+		loadingLabel.setFont(new Font(this.getFont().getName(), Font.BOLD, 20));
+		mainContentLabel.add(loadingLabel);
+		
+		progress.setMaximum(100);
+		progress.setMinimum(0);
+		
+		progress.setBounds(40, 220, 820 , 25);
+		
+		mainContentLabel.add(progress);
+		
+		load();
+	}
+
+	private void load() {
+		Thread t = new Thread(){
+	        public void run(){
+	            for(int i = 0 ; i < 100 ; i++){
+	                final int percent = i;
+	                SwingUtilities.invokeLater(new Runnable() {
+	                    public void run() {
+	                        progress.setValue(percent);
+	                        if(percent % 5 == 0){
+	                        	loadingLabel.setText("Loading... " + percent + "%");
+	                        }
+	                    }
+	                  });
+	                	try {
+	                    	Thread.sleep(100);
+	                	} catch (InterruptedException e) {}
+	        	}
+	            if(startGame()){
+	            	;
+	            }else{
+	            	try {
+						Thread.sleep(3000);
+					} catch (InterruptedException e) {
+						e.printStackTrace();
+					}
+	            	System.exit(1);
+	            }
+	        }
+	    };
+	    t.start();
+	}
+
+	private static boolean startGame() {
+		File f = new File("ExperimentX.jar");
+		if(f.exists()){
+			try {
+				Runtime.getRuntime().exec("java -jar ExperimentX.jar");
+				Logger.logInfo("Game started!");
+				Runtime.getRuntime().exit(0);
+				return true;
+			} catch (IOException e) {
+				e.printStackTrace();
+				Logger.logError("Game failed to start.");
+				JOptionPane.showMessageDialog(null, new JLabel("The game has failed to start.", JLabel.CENTER), "Error", JOptionPane.ERROR_MESSAGE);
+				return false;
+			}
+		}else{
+			//Obviously doesn't work when you debug/ run in Eclipse because it can't find the jar
+			Logger.logError("Game failed to start because jar was not found.");
+			JOptionPane.showMessageDialog(null, new JLabel("<html>The game has failed to start.<br><center>Error code: 1 (No jar found)</center></html>", JLabel.CENTER), "Error", JOptionPane.ERROR_MESSAGE);
+			return false;
+		}
+	}
+	
+}
