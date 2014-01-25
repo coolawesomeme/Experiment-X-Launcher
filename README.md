@@ -1,4 +1,4 @@
-Experiment-X-Launcher
+Experiment X Launcher
 =====================
 By: coolawesomeme & pacman003
 
