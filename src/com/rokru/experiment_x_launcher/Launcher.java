@@ -8,6 +8,7 @@ import java.awt.Insets;
 import java.awt.Point;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -198,6 +199,7 @@ public class Launcher extends JFrame implements Runnable{
 		for(String s : args){
 			parameters.add(s);
 		}
+		makeDirectories();
 		if(parameters.contains("-skiplauncher") || parameters.contains("-nogui")){
 			new GameLoader();
 		}else{
@@ -210,5 +212,30 @@ public class Launcher extends JFrame implements Runnable{
 		/*while(running){
 			
 		}*/
+	}
+	
+	private static void makeDirectories() {
+		File f;
+		if(System.getProperty("user.home") != null){
+			f = new File(System.getProperty("user.home") + "/.experimentx/Launcher");
+			if(f.mkdirs()){
+				Logger.logInfo("Launcher File Folder created at:");
+				Logger.logInfo(f.getAbsolutePath());
+			}
+		}else{
+			f = new File(".experimentx/Launcher");
+			if(f.mkdirs()){
+				Logger.logInfo("Launcher File Folder created at:");
+				Logger.logInfo(f.getAbsolutePath());
+			}
+		}
+	}
+
+	public static String getDirectory(){
+		if(System.getProperty("user.home") != null){
+			return System.getProperty("user.home") + "/.experimentx/Launcher";
+		}else{
+			return ".experimentx/Launcher";
+		}
 	}
 }
