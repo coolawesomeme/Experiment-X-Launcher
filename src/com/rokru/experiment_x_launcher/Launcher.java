@@ -124,8 +124,6 @@ public class Launcher extends JFrame implements Runnable{
 		about.setBounds((width / 2 + 390 / 2) + 20, (height
 				- normalButtonHeight - 45), 100, normalButtonHeight);
 		mainContentLabel.add(about);
-
-		getRootPane().setDefaultButton(play);
 		
 		validate();
 		
@@ -203,6 +201,7 @@ public class Launcher extends JFrame implements Runnable{
 		if(parameters.contains("-skiplauncher") || parameters.contains("-nogui")){
 			new GameLoader();
 		}else{
+			Logger.logInfo("Launcher v" + launcherVersion + " initializing...");
 			new Launcher(menuID);
 		}
 	}
