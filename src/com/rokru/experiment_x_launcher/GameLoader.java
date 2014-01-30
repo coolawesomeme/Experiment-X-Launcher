@@ -16,25 +16,22 @@ public class GameLoader extends Launcher{
 
 	private JProgressBar progress = new JProgressBar();
 	private JLabel loadingLabel = new JLabel();
-	
 	protected static int menuID = 3;
 	
 	public GameLoader() {
 		super(menuID);
 		setDefaultCloseOperation(EXIT_ON_CLOSE);
-		loadingLabel = new JLabel("Loading...", JLabel.CENTER);
-		loadingLabel.setBounds(40, 40, 820, 20);
-		loadingLabel.setFont(Launcher.getDefaultFont(Font.BOLD, 15));
+		loadingLabel = new JLabel("Loading... 0%", JLabel.CENTER);
+		loadingLabel.setBounds(40, 180, 820, 25);
+		loadingLabel.setFont(new Font(this.getFont().getName(), Font.BOLD, 20));
 		mainContentLabel.add(loadingLabel);
 		
 		progress.setMaximum(100);
 		progress.setMinimum(0);
 		
-		progress.setBounds(40, 70, 820 , 15);
+		progress.setBounds(40, 220, 820 , 25);
 		
 		mainContentLabel.add(progress);
-		
-		mainContentLabel.repaint();
 		
 		load();
 	}
@@ -66,6 +63,7 @@ public class GameLoader extends Launcher{
 	                        progress.setValue(percent);
 	                        if(percent % 5 == 0){
 	                        	loadingLabel.setText("Loading... " + percent + "%");
+	                        	Logger.logInfo("Loaded " + percent + "%");
 	                        }
 	                    }
 	                  });
@@ -89,11 +87,11 @@ public class GameLoader extends Launcher{
 	}
 
 	private static boolean startGame() {
-		File f = new File("ExperimentX.jar");
+		File f = new File("Experiment X.jar");
 		if(f.exists()){
 			try {
-				Runtime.getRuntime().exec("java -jar ExperimentX.jar");
-				Logger.logInfo("Game started!");
+				Runtime.getRuntime().exec("java -jar \"" + f.getName() + "\"");
+				Logger.logInfo("Game starting...");
 				Runtime.getRuntime().exit(0);
 				return true;
 			} catch (IOException e) {
@@ -109,5 +107,4 @@ public class GameLoader extends Launcher{
 			return false;
 		}
 	}
-	
 }
