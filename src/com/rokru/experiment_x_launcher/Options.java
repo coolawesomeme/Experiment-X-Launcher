@@ -9,11 +9,13 @@ import java.awt.event.ComponentEvent;
 
 import javax.swing.JButton;
 import javax.swing.JLabel;
+import javax.swing.JTextField;
 
 public class Options extends Launcher{
 	private static final long serialVersionUID = 1L;
 
 	private JButton OK;
+	private JTextField username;
 	protected static int menuID = 1;
 	
 	public Options(Point point){
@@ -38,6 +40,11 @@ public class Options extends Launcher{
 		title.setFont(Launcher.getDefaultFont(Font.BOLD, 20));
 		title.setBounds(40, 10, 820, 45);
 		mainContentLabel.add(title);
+		
+		JLabel userLabel = new JLabel("Username:");
+		userLabel.setFont(Launcher.getDefaultFont(Font.PLAIN, 15));
+		userLabel.setBounds(40, 65, 80, 45);
+		mainContentLabel.add(userLabel);
 	}
 	
 	private void drawButtons(){
@@ -45,8 +52,13 @@ public class Options extends Launcher{
 		OK.setBounds(width - 60 - 20, (height - 40 - 40), 60, 40);
 		mainContentLabel.add(OK);
 
+		username = new JTextField(Config.username);
+		username.setBounds(120, 72, 175, 30);
+		mainContentLabel.add(username);
+		
 		OK.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
+				Config.setValue("username", username.getText());
 				Logger.logButtonEvent("OK");
 				dispose();
 				new Launcher(getLocation(), Launcher.menuID);
