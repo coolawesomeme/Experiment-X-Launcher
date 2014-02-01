@@ -198,6 +198,7 @@ public class Launcher extends JFrame implements Runnable{
 			parameters.add(s);
 		}
 		makeDirectories();
+		new Config();
 		if(parameters.contains("-skiplauncher") || parameters.contains("-nogui")){
 			new GameLoader();
 		}else{
