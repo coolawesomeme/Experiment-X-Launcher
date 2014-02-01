@@ -99,8 +99,8 @@ public class GameLoader extends Launcher{
 		File f = new File("Experiment X.jar");
 		if(f.exists()){
 			try {
-				Runtime.getRuntime().exec("java -jar \"" + f.getName() + "\"");
-				Logger.logInfo("Game starting...");
+				Runtime.getRuntime().exec("java -jar \"" + f.getName() + "\" " + Config.username);
+				Logger.logInfo("Game starting with username '" + Config.username + "'...");
 				Runtime.getRuntime().exit(0);
 				return true;
 			} catch (IOException e) {
