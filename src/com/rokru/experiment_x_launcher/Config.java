@@ -99,6 +99,7 @@ public class Config {
 			}
 	 
 		}
+		reload();
 	}
 	
 }
