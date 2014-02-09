@@ -10,6 +10,9 @@ import java.awt.event.ComponentEvent;
 import javax.swing.JButton;
 import javax.swing.JLabel;
 import javax.swing.JTextField;
+import javax.swing.text.AttributeSet;
+import javax.swing.text.BadLocationException;
+import javax.swing.text.PlainDocument;
 
 public class Options extends Launcher{
 	private static final long serialVersionUID = 1L;
@@ -52,8 +55,10 @@ public class Options extends Launcher{
 		OK.setBounds(width - 60 - 20, (height - 40 - 40), 60, 40);
 		mainContentLabel.add(OK);
 
-		username = new JTextField(Config.username);
-		username.setBounds(120, 72, 175, 30);
+		username = new JTextField("Player");
+		username.setBounds(120, 72, 165, 30);
+		username.setDocument(new JTextFieldLimit(18));
+		username.setText(Config.username);
 		mainContentLabel.add(username);
 		
 		OK.addActionListener(new ActionListener() {
@@ -65,4 +70,22 @@ public class Options extends Launcher{
 			}
 		});
 	}
+}
+
+class JTextFieldLimit extends PlainDocument {
+	private static final long serialVersionUID = 1L;
+	private int limit;
+
+	  JTextFieldLimit(int limit) {
+	   super();
+	   this.limit = limit;
+	   }
+
+	  public void insertString( int offset, String  str, AttributeSet attr ) throws BadLocationException {
+	    if (str == null) return;
+
+	    if ((getLength() + str.length()) <= limit) {
+	      super.insertString(offset, str, attr);
+	    }
+	  }
 }
