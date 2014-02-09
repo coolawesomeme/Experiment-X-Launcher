@@ -112,7 +112,7 @@ public class Config {
 		if(username != null){
 			if(username.length() <= 18){
 				if(username.length() > 0){
-					;
+					return;
 				}else{
 					setValue("username", "Player" + random.nextInt(999));
 				}
