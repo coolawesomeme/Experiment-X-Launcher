@@ -158,38 +158,6 @@ public class Launcher extends JFrame implements Runnable{
 			}
 		});
 	}
-
-	public static Font getDefaultFont(int fontType, int fontSize){
-		try{
-			return new Font("Arial", fontType, fontSize);
-		}catch(Exception e){
-			return new Font(UIManager.getFont("Label.font").getFontName(), fontType, fontSize);
-		}
-	}
-	
-	public static Font getDefaultFont(int fontType, int fontSize, int reformatIfDefault){
-		boolean flag = false;
-		GraphicsEnvironment g = GraphicsEnvironment.getLocalGraphicsEnvironment();
-        String []fonts=g.getAvailableFontFamilyNames();
-            for (int i = 0; i < fonts.length; i++) {
-            	if(fonts[i].equals("Arial")){
-            		flag = true;
-            		break;
-            	}
-            }
-		if(flag){
-			return new Font("Arial", fontType, fontSize);
-		}else{
-			if(reformatIfDefault <= 1)
-				return new Font(UIManager.getFont("Label.font").getFontName(), Font.PLAIN, fontSize);
-			else if(reformatIfDefault == 2)
-				return new Font(UIManager.getFont("Label.font").getFontName(), Font.BOLD, fontSize);
-			else if(reformatIfDefault == 3)
-				return new Font(UIManager.getFont("Label.font").getFontName(), Font.ITALIC, fontSize);
-			else
-				return new Font(UIManager.getFont("Label.font").getFontName(), Font.PLAIN, fontSize);
-		}
-	}
 	
 	public static void main(String[] args) {
 		running = true;
@@ -227,6 +195,46 @@ public class Launcher extends JFrame implements Runnable{
 			return System.getProperty("user.home") + "/.experimentx/launcher";
 		}else{
 			return ".experimentx/launcher";
+		}
+	}
+	
+	public static String getGameDirectory(){
+		if(System.getProperty("user.home") != null){
+			return System.getProperty("user.home") + "/.experimentx/game";
+		}else{
+			return ".experimentx/game";
+		}
+	}
+	
+	public static Font getDefaultFont(int fontType, int fontSize){
+		try{
+			return new Font("Arial", fontType, fontSize);
+		}catch(Exception e){
+			return new Font(UIManager.getFont("Label.font").getFontName(), fontType, fontSize);
+		}
+	}
+	
+	public static Font getDefaultFont(int fontType, int fontSize, int reformatIfDefault){
+		boolean flag = false;
+		GraphicsEnvironment g = GraphicsEnvironment.getLocalGraphicsEnvironment();
+        String []fonts=g.getAvailableFontFamilyNames();
+            for (int i = 0; i < fonts.length; i++) {
+            	if(fonts[i].equals("Arial")){
+            		flag = true;
+            		break;
+            	}
+            }
+		if(flag){
+			return new Font("Arial", fontType, fontSize);
+		}else{
+			if(reformatIfDefault <= 1)
+				return new Font(UIManager.getFont("Label.font").getFontName(), Font.PLAIN, fontSize);
+			else if(reformatIfDefault == 2)
+				return new Font(UIManager.getFont("Label.font").getFontName(), Font.BOLD, fontSize);
+			else if(reformatIfDefault == 3)
+				return new Font(UIManager.getFont("Label.font").getFontName(), Font.ITALIC, fontSize);
+			else
+				return new Font(UIManager.getFont("Label.font").getFontName(), Font.PLAIN, fontSize);
 		}
 	}
 }
