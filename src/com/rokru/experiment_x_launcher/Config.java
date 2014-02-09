@@ -7,10 +7,12 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
 import java.util.Properties;
+import java.util.Random;
 
 public class Config {
 
-	public static String username = "Player";
+	private static Random random = new Random();
+	public static String username = "Player" + random.nextInt(999);
 	
 	public Config(){
 		if(new File(Launcher.getDirectory() + "/options.properties").exists()){
@@ -21,7 +23,7 @@ public class Config {
 			try {
 				output = new FileOutputStream(Launcher.getDirectory() + "/options.properties");
 				// set the properties value
-				prop.setProperty("username", "Player");
+				prop.setProperty("username", username);
 		 
 				// save properties to project root folder
 				prop.store(output, null);
