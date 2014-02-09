@@ -215,27 +215,18 @@ public class Launcher extends JFrame implements Runnable{
 	}
 	
 	private static void makeDirectories() {
-		File f;
-		if(System.getProperty("user.home") != null){
-			f = new File(System.getProperty("user.home") + "/.experimentx/Launcher");
-			if(f.mkdirs()){
-				Logger.logInfo("Launcher File Folder created at:");
-				Logger.logInfo(f.getAbsolutePath());
-			}
-		}else{
-			f = new File(".experimentx/Launcher");
-			if(f.mkdirs()){
-				Logger.logInfo("Launcher File Folder created at:");
-				Logger.logInfo(f.getAbsolutePath());
-			}
+		File f = new File(getDirectory());
+		if(f.mkdirs()){
+			Logger.logInfo("Launcher File Folder created at:");
+			Logger.logInfo(f.getAbsolutePath());
 		}
 	}
 
 	public static String getDirectory(){
 		if(System.getProperty("user.home") != null){
-			return System.getProperty("user.home") + "/.experimentx/Launcher";
+			return System.getProperty("user.home") + "/.experimentx/launcher";
 		}else{
-			return ".experimentx/Launcher";
+			return ".experimentx/launcher";
 		}
 	}
 }
