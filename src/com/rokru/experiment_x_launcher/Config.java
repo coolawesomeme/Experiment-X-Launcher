@@ -17,6 +17,7 @@ public class Config {
 	public Config(){
 		if(new File(Launcher.getDirectory() + "/options.properties").exists()){
 			username = getValue("username");
+			validateUsername();
 		}else{
 			Properties prop = new Properties();
 			OutputStream output = null;
@@ -44,8 +45,11 @@ public class Config {
 		}
 	}
 	
-	public static void reload(){
+	//i specifies whether or not to validate username
+	public static void reload(boolean i){
 		username = getValue("username");
+		if(i)
+			validateUsername();
 	}
 	
 	private static String getValue(String key){
@@ -101,7 +105,21 @@ public class Config {
 			}
 	 
 		}
-		reload();
+		reload(false);
+	}
+	
+	private static void validateUsername(){
+		if(username != null){
+			if(username.length() <= 18){
+				if(username.length() > 0){
+					;
+				}else{
+					setValue("username", "Player" + random.nextInt(999));
+				}
+			}else{
+				setValue("username", username.substring(0, 18));
+			}
+		}
 	}
 	
 }

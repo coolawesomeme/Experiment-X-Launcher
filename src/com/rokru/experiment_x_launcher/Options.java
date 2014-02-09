@@ -58,6 +58,7 @@ public class Options extends Launcher{
 		username = new JTextField("Player");
 		username.setBounds(120, 72, 165, 30);
 		username.setDocument(new JTextFieldLimit(18));
+		Config.reload(true);
 		username.setText(Config.username);
 		mainContentLabel.add(username);
 		
