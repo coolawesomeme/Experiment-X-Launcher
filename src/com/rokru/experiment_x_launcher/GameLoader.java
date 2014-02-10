@@ -4,7 +4,7 @@ import java.awt.Color;
 import java.awt.Font;
 import java.awt.Point;
 import java.io.File;
-import java.io.IOException;
+import java.io.FileWriter;
 
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
@@ -95,14 +95,20 @@ public class GameLoader extends Launcher{
 	    t.start();
 	}
 
-	private static boolean startGame() {
+	private boolean startGame() {
 		File f = new File("Experiment X.jar");
 		if(f.exists()){
 			try {
+				File q = new File(Launcher.getGameDirectory() + "/lastplayed.time");
+				if(!q.exists() && Config.username.startsWith("Player")){
+					Config.setValue("username", JOptionPane.showInputDialog("Please enter a username:"));
+				}
+				dispose();
 				Runtime.getRuntime().exec("java -jar \"" + f.getName() + "\" -user:" + Config.username);
+				createLastPlayedFile(q);
 				Runtime.getRuntime().exit(0);
 				return true;
-			} catch (IOException e) {
+			} catch (Exception e) {
 				e.printStackTrace();
 				Logger.logError("Game failed to start.");
 				JOptionPane.showMessageDialog(null, new JLabel("The game has failed to start.", JLabel.CENTER), "Error", JOptionPane.ERROR_MESSAGE);
@@ -113,6 +119,21 @@ public class GameLoader extends Launcher{
 			Logger.logError("Game failed to start because jar was not found.");
 			JOptionPane.showMessageDialog(null, new JLabel("<html>The game has failed to start.<br><center>Error code: 1 (No jar found)</center></html>", JLabel.CENTER), "Error", JOptionPane.ERROR_MESSAGE);
 			return false;
+		}
+	}
+	
+	private void createLastPlayedFile(File lastPlayedFile){
+		File q = new File(Launcher.getGameDirectory());
+		if(!q.exists())
+			q.mkdirs();
+		try {
+			lastPlayedFile.createNewFile();
+			FileWriter fwrite = new FileWriter(lastPlayedFile);
+			fwrite.write(System.currentTimeMillis() + "");
+			fwrite.flush();
+			fwrite.close();
+		} catch (Exception e) {
+			e.printStackTrace();
 		}
 	}
 }
