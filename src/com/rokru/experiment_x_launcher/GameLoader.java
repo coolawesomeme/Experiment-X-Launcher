@@ -17,14 +17,15 @@ public class GameLoader extends Launcher{
 
 	private JProgressBar progress = new JProgressBar();
 	private JLabel loadingLabel = new JLabel();
+	private JLabel loadingStatusLabel = new JLabel();
 	protected static int menuID = 3;
 	
 	public GameLoader() {
 		super(menuID);
-		setDefaultCloseOperation(EXIT_ON_CLOSE);
 		loadingLabel = new JLabel("Loading... 0%", JLabel.CENTER);
 		loadingLabel.setBounds(40, 180, 820, 25);
 		loadingLabel.setFont(new Font(this.getFont().getName(), Font.BOLD, 20));
+		loadingLabel.setForeground(new Color(38, 38, 38));
 		mainContentLabel.add(loadingLabel);
 		
 		progress.setMaximum(100);
@@ -32,10 +33,16 @@ public class GameLoader extends Launcher{
 		progress.setBounds(40, 220, 820 , 25);
 		mainContentLabel.add(progress);
 		
-		JLabel protip = new JLabel(RandomMessage.getRandomMessage(), JLabel.CENTER);
-		protip.setBounds(40, 180, 820, height - 10);
-		protip.setFont(new Font(this.getFont().getName(), Font.PLAIN, 15));
-		mainContentLabel.add(protip);
+		loadingStatusLabel = new JLabel("", JLabel.CENTER);
+		loadingStatusLabel.setBounds(40, 260, 820, 25);
+		loadingStatusLabel.setFont(new Font(this.getFont().getName(), Font.PLAIN, 16));
+		mainContentLabel.add(loadingStatusLabel);
+		
+		JLabel rMessage = new JLabel(RandomMessage.getRandomMessage(), JLabel.CENTER);
+		rMessage.setBounds(40, 180, 820, height - 10);
+		rMessage.setFont(new Font(this.getFont().getName(), Font.BOLD, 15));
+		rMessage.setForeground(new Color(38, 38, 38));
+		mainContentLabel.add(rMessage);
 		
 		load();
 	}
@@ -53,6 +60,11 @@ public class GameLoader extends Launcher{
 		progress.setBounds(40, 220, 820 , 25);
 		mainContentLabel.add(progress);
 		
+		loadingStatusLabel = new JLabel("", JLabel.CENTER);
+		loadingStatusLabel.setBounds(40, 260, 820, 25);
+		loadingStatusLabel.setFont(new Font(this.getFont().getName(), Font.PLAIN, 16));
+		mainContentLabel.add(loadingStatusLabel);
+		
 		JLabel rMessage = new JLabel(RandomMessage.getRandomMessage(), JLabel.CENTER);
 		rMessage.setBounds(40, 180, 820, height - 10);
 		rMessage.setFont(new Font(this.getFont().getName(), Font.BOLD, 15));
@@ -62,41 +74,12 @@ public class GameLoader extends Launcher{
 		load();
 	}
 
-	private void load() {
-		Thread t = new Thread(){
-	        public void run(){
-	            for(int i = 0 ; i < 100 ; i++){
-	                final int percent = i;
-	                SwingUtilities.invokeLater(new Runnable() {
-	                    public void run() {
-	                        progress.setValue(percent);
-	                        if(percent % 5 == 0){
-	                        	loadingLabel.setText("Loading... " + percent + "%");
-	                        	Logger.logInfo("Loaded " + percent + "%");
-	                        }
-	                    }
-	                  });
-	                	try {
-	                    	Thread.sleep(100);
-	                	} catch (InterruptedException e) {}
-	        	}
-	            if(startGame()){
-	            	;
-	            }else{
-	            	try {
-						Thread.sleep(3000);
-					} catch (InterruptedException e) {
-						e.printStackTrace();
-					}
-	            	System.exit(1);
-	            }
-	        }
-	    };
-	    t.start();
-	}
-
-	private boolean startGame() {
-		File f = new File("Experiment X.jar");
+	private boolean launchGame() {
+		File f;
+		if(GameAutoUpdater.latestVersion != null)
+			f = new File(Launcher.getGameDirectory() + "/versions/Experiment X " + GameAutoUpdater.latestVersion + "/Experiment X.jar");
+		else
+			f = new File("Experiment X.jar");
 		if(f.exists()){
 			try {
 				File q = new File(Launcher.getGameDirectory() + "/lastplayed.time");
@@ -104,9 +87,9 @@ public class GameLoader extends Launcher{
 					Config.setValue("username", JOptionPane.showInputDialog("Please enter a username:"));
 				}
 				dispose();
-				Runtime.getRuntime().exec("java -jar \"" + f.getName() + "\" -user:" + Config.username);
+				Runtime.getRuntime().exec("java -jar \"" + f.getAbsolutePath() + "\" -user:" + Config.username);
 				createLastPlayedFile(q);
-				Runtime.getRuntime().exit(0);
+				System.exit(0);
 				return true;
 			} catch (Exception e) {
 				e.printStackTrace();
@@ -135,5 +118,68 @@ public class GameLoader extends Launcher{
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
+	}
+	
+	private void load() {
+		Thread t = new Thread("GameLoadThread"){
+	        public void run(){
+	        	boolean updateFailed = false;
+	        	final GameAutoUpdater updater = new GameAutoUpdater();
+	            for(int i = 0 ; i < 100 ; i++){
+	                final int percent = i;
+	                SwingUtilities.invokeLater(new Runnable() {
+	                    public void run() {
+	                        progress.setValue(percent);
+	                        if(percent % 5 == 0){
+	                        	loadingLabel.setText("Loading... " + percent + "%");
+	                        	Logger.logInfo("Loaded " + percent + "%");
+	                        	if(percent == 0){
+	        	                	loadingStatusLabel.setText("Checking for existing versions...");
+	        	                }else if(percent == 50){
+	        	                	if(updater.internetConnection && updater.updatesAvailable)
+	        	                		loadingStatusLabel.setText("Downloading most recent update...");
+	        	                	else if(updater.internetConnection && !updater.updatesAvailable && updater.versionsOnDisk)
+	        	                		loadingStatusLabel.setText("Launching game...");
+	        	                	else if(!updater.internetConnection && updater.versionsOnDisk)
+	        	                		loadingStatusLabel.setText("Launching game...");
+	        	                	else
+	        	                		loadingStatusLabel.setText("");
+	        	                }
+	                        }
+	                    }
+	                  });
+	                if(percent == 0){
+	                	
+	                }else if(percent == 50){
+	                	if(updater.internetConnection && updater.updatesAvailable){
+	        	        		if(updater.update()){}else{
+	        	        			updateFailed = true;
+	        	        		}
+	                	}
+	                	else if(updater.internetConnection && !updater.updatesAvailable && updater.versionsOnDisk)
+	                	{}
+	                	else if(!updater.internetConnection && !updater.versionsOnDisk)
+	                	{JOptionPane.showMessageDialog(null, new JLabel("The game cannot be downloaded without an internet connection.", JLabel.CENTER), "Error", JOptionPane.ERROR_MESSAGE);}
+	                }else{
+	                	try {
+	                   		Thread.sleep(100);
+	                	} catch (InterruptedException e) {}
+	                }	
+	            }
+	            if(updateFailed){
+	            	JOptionPane.showMessageDialog(null, new JLabel("The game has failed to update.", JLabel.CENTER), "Error", JOptionPane.ERROR_MESSAGE);
+	            }
+	            if(updater.getHighestDownloadedVersion() != null){
+	            	launchGame();
+	            }
+	            try {
+					Thread.sleep(3000);
+				} catch (InterruptedException e) {
+					e.printStackTrace();
+				}
+	            System.exit(1);
+	        }
+	    };
+	    t.start();
 	}
 }
