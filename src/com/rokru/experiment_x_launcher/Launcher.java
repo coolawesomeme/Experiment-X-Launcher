@@ -165,6 +165,10 @@ public class Launcher extends JFrame implements Runnable{
 		for(String s : args){
 			parameters.add(s);
 		}
+		if(parameters.contains("-v") || parameters.contains("-version")){
+			System.out.println(launcherVersion);
+			System.exit(0);
+		}
 		makeDirectories();
 		new Config();
 		if(parameters.contains("-skiplauncher") || parameters.contains("-nogui")){
