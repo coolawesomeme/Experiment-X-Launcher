@@ -83,12 +83,13 @@ public class GameLoader extends Launcher{
 		if(f.exists()){
 			try {
 				File q = new File(Launcher.getGameDirectory() + "/lastplayed.time");
-				if(!q.exists() && Config.username.startsWith("Player")){
+				if(!q.exists()){
 					Config.setValue("username", JOptionPane.showInputDialog("Please enter a username:"));
 				}
 				dispose();
 				Runtime.getRuntime().exec("java -jar \"" + f.getAbsolutePath() + "\" -user:" + Config.username);
 				createLastPlayedFile(q);
+				createLauncherPathFile();
 				System.exit(0);
 				return true;
 			} catch (Exception e) {
@@ -105,6 +106,24 @@ public class GameLoader extends Launcher{
 		}
 	}
 	
+	private void createLauncherPathFile() {
+		File q = new File(Launcher.getGameDirectory());
+		if(!q.exists())
+			q.mkdirs();
+		try {
+			File q1 = new File(Launcher.getDirectory() + "/lastpath.loc");
+			q1.createNewFile();
+			FileWriter fwrite = new FileWriter(q1);
+			fwrite.write( JarPath.determineJarFolder() + "|" + JarPath.determineJarPath() + "|" + Launcher.launcherVersion );
+			Logger.logInfo("Launcher Folder: " + JarPath.determineJarFolder());
+			Logger.logInfo("Launcher Path: " + JarPath.determineJarPath());
+			fwrite.flush();
+			fwrite.close();
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+	}
+
 	private void createLastPlayedFile(File lastPlayedFile){
 		File q = new File(Launcher.getGameDirectory());
 		if(!q.exists())
