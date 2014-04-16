@@ -76,10 +76,10 @@ public class GameLoader extends Launcher{
 
 	private boolean launchGame() {
 		File f;
-		if(GameAutoUpdater.latestVersion != null)
+		if(GameAutoUpdater.latestVersion != null){
 			f = new File(Launcher.getGameDirectory() + "/versions/Experiment X " + GameAutoUpdater.latestVersion + "/Experiment X.jar");
-		else
-			f = new File("Experiment X.jar");
+		}else{
+			f = new File("Experiment X.jar");}
 		if(f.exists()){
 			try {
 				File q = new File(Launcher.getGameDirectory() + "/lastplayed.time");
@@ -99,7 +99,6 @@ public class GameLoader extends Launcher{
 				return false;
 			}
 		}else{
-			//Obviously doesn't work when you debug/ run in Eclipse because it can't find the jar
 			Logger.logError("Game failed to start because jar was not found.");
 			JOptionPane.showMessageDialog(null, new JLabel("<html>The game has failed to start.<br><center>Error code: 1 (No jar found)</center></html>", JLabel.CENTER), "Error", JOptionPane.ERROR_MESSAGE);
 			return false;
@@ -156,11 +155,11 @@ public class GameLoader extends Launcher{
 	        	                	loadingStatusLabel.setText("Checking for existing versions...");
 	        	                }else if(percent == 50){
 	        	                	if(updater.internetConnection && updater.updatesAvailable)
-	        	                		loadingStatusLabel.setText("Downloading most recent update...");
+	        	                		loadingStatusLabel.setText("Downloading & launching most recent update...");
 	        	                	else if(updater.internetConnection && !updater.updatesAvailable && updater.versionsOnDisk)
 	        	                		loadingStatusLabel.setText("Launching game...");
 	        	                	else if(!updater.internetConnection && updater.versionsOnDisk)
-	        	                		loadingStatusLabel.setText("Launching game...");
+	        	                		loadingStatusLabel.setText("No internet connection. Launching most recent version...");
 	        	                	else
 	        	                		loadingStatusLabel.setText("");
 	        	                }
