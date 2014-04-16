@@ -19,33 +19,33 @@ public class GameAutoUpdater {
 
 	public static String latestVersion;
 	private static String download_url;
+	private String highestVersion;
 
 	private int vMajor = 0;
 	private int vMinor = 0;
 	private int vRevision = 0;
 
 	public GameAutoUpdater(){
-		String highestVersion = getHighestDownloadedVersion();
+		highestVersion = getHighestDownloadedVersion();
 		if(highestVersion != null){
 			vMajor = Integer.parseInt(highestVersion.split("\\.")[0]);
 			vMinor = Integer.parseInt(highestVersion.split("\\.")[1]);
 			vRevision = Integer.parseInt(highestVersion.split("\\.")[2]);
 		}
-		Logger.logInfo(highestVersion + " "  + vMajor);
 		getUpdateFileInfo();
 		updatesAvailable = isOutdated(latestVersion);
 	}
 
 	public String getHighestDownloadedVersion() {
 		File f = new File(Launcher.getGameDirectory() + "/versions");
-		if (f.exists() && f.isDirectory() && f.listFiles().length > 0) {
+		if (f.exists() && f.listFiles().length > 0) {
 			List<File> versionFolders = new ArrayList<File>();
 			for (File q : f.listFiles()) {
 				if (q.getName().startsWith("Experiment X ")) {
 					versionFolders.add(q);
 				}
 			}
-			if (versionFolders.size() > 0) {
+			if (!versionFolders.isEmpty()) {
 				String highestVersion = versionFolders.get(0).getName()
 						.split(" ")[2];
 				for (File a : versionFolders) {
@@ -54,14 +54,14 @@ public class GameAutoUpdater {
 				}
 				File x = new File(Launcher.getGameDirectory() + "/versions/Experiment X " + highestVersion);
 				if(x.listFiles().length > 0){
-					versionsOnDisk = false;
 					for(File a : x.listFiles()){
 						if(a.getName().equals("Experiment X.jar")){
 							versionsOnDisk = true;
 							return highestVersion;
 						}
 					}
-					return highestVersion;
+					versionsOnDisk = false;
+					return null;
 				}else{
 					versionsOnDisk = false;
 					return null;
@@ -101,6 +101,7 @@ public class GameAutoUpdater {
 		} catch (Exception e) {
 			e.printStackTrace();
 			internetConnection = false;
+			latestVersion = highestVersion;
 			return null;
 		}
 	}
