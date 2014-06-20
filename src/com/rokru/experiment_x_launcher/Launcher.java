@@ -20,7 +20,8 @@ import javax.swing.UIManager;
 
 public class Launcher extends JFrame implements Runnable{
 	private static final long serialVersionUID = 1L;
-
+	
+	//Will this ever change?
 	public static String launcherVersion = "0.0.2";
 	public static String launcherVersionFormatted = "Experiment X Launcher - v" + launcherVersion;
 
