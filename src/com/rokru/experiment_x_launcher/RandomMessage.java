@@ -5,7 +5,7 @@ import java.util.Random;
 public class RandomMessage {
 
 	private static String[] protips = {
-			"Protip: Use arrow keys to move.",
+			"Protip: Use W, A, S, D to move.",
 			"Protip: If you get stuck on a path, try playing a different path. (NYI)",
 			"Protip: Avoid the void, you will die if you fall into it! (NYI)",
 			"Protip: Try using the mouse! (NYI)" };
