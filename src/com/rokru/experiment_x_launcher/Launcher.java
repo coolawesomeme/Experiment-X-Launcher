@@ -49,13 +49,12 @@ public class Launcher extends JFrame implements Runnable{
 		setSize(new Dimension(width, height));
 		setDefaultCloseOperation(EXIT_ON_CLOSE);
 		getContentPane().add(mainContentLabel);
+		if(menuId == menuID)
+			drawButtons();
 		setLocationRelativeTo(null);
 		setResizable(false);
 		setVisible(true);
 		mainContentLabel.setLayout(null);
-		
-		if(menuId == menuID)
-			drawButtons();
 		
 		ComponentMover cm = new ComponentMover();
 		cm.registerComponent(this);
