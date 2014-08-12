@@ -18,7 +18,7 @@ public class GameLoader extends Launcher{
 	private JProgressBar progress = new JProgressBar();
 	private JLabel loadingLabel = new JLabel();
 	private JLabel loadingStatusLabel = new JLabel();
-	protected static int menuID = 3;
+	protected static int menuID = 2;
 	
 	public GameLoader() {
 		super(menuID);
@@ -29,8 +29,8 @@ public class GameLoader extends Launcher{
 		mainContentLabel.add(loadingLabel);
 		
 		progress.setMaximum(100);
-		progress.setMinimum(0);
-		progress.setBounds(40, 220, 820 , 25);
+		progress.setMinimum(1);
+		progress.setBounds(40, 220, 820, 30);
 		mainContentLabel.add(progress);
 		
 		loadingStatusLabel = new JLabel("", JLabel.CENTER);
@@ -56,8 +56,8 @@ public class GameLoader extends Launcher{
 		mainContentLabel.add(loadingLabel);
 		
 		progress.setMaximum(100);
-		progress.setMinimum(0);
-		progress.setBounds(40, 220, 820 , 25);
+		progress.setMinimum(1);
+		progress.setBounds(40, 220, 820, 30);
 		mainContentLabel.add(progress);
 		
 		loadingStatusLabel = new JLabel("", JLabel.CENTER);
