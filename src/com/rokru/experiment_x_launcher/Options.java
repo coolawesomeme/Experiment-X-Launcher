@@ -1,6 +1,10 @@
 package com.rokru.experiment_x_launcher;
 
+import java.awt.AlphaComposite;
+import java.awt.Color;
 import java.awt.Font;
+import java.awt.Graphics;
+import java.awt.Graphics2D;
 import java.awt.Point;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -25,7 +29,7 @@ public class Options extends Launcher{
 		super(point, menuID);
 		setTitle("Options - " + launcherVersionFormatted);
 		this.setDefaultCloseOperation(HIDE_ON_CLOSE);
-		drawButtons();
+		drawComponents();
 		drawText();
 		
 		addComponentListener(new ComponentAdapter() {
@@ -50,16 +54,17 @@ public class Options extends Launcher{
 		mainContentLabel.add(userLabel);
 	}
 	
-	private void drawButtons(){
+	private void drawComponents(){
 		OK = new JButton("OK");
 		OK.setBounds(width - 60 - 20, (height - 40 - 40), 60, 40);
 		mainContentLabel.add(OK);
 
-		username = new JTextField("Player");
+		username = new TransparentTextField("Player");
 		username.setBounds(120, 72, 165, 30);
 		username.setDocument(new JTextFieldLimit(18));
 		Config.reload(true);
 		username.setText(Config.username);
+		username.setBackground(new Color(1.0f, 1.0f, 1.0f, 0.7f));
 		mainContentLabel.add(username);
 		
 		OK.addActionListener(new ActionListener() {
@@ -89,4 +94,46 @@ class JTextFieldLimit extends PlainDocument {
 	      super.insertString(offset, str, attr);
 	    }
 	  }
+}
+
+class TransparentTextField extends JTextField {
+
+	private static final long serialVersionUID = 1L;
+
+	public TransparentTextField(String text) {
+        super(text);
+        init();
+    }
+
+    public TransparentTextField(int columns) {
+        super(columns);
+        init();
+    }
+
+    public TransparentTextField(String text, int columns) {
+        super(text, columns);
+        init();
+    }
+
+    protected void init() {
+        setOpaque(false);
+    }
+
+    @Override
+    public void paint(Graphics g) {
+        Graphics2D g2d = (Graphics2D) g.create();
+        g2d.setComposite(AlphaComposite.SrcOver.derive(0.7f));
+        super.paint(g2d);
+        g2d.dispose();
+    }
+
+    @Override
+    protected void paintComponent(Graphics g) {
+        Graphics2D g2d = (Graphics2D) g.create();
+        g2d.setColor(getBackground());
+        g2d.fillRect(0, 0, getWidth(), getHeight());
+        super.paintComponent(g2d);
+        g2d.dispose();
+    }
+
 }
