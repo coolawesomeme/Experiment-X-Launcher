@@ -93,9 +93,9 @@ public class Launcher extends JFrame implements Runnable{
 		if(menuId == menuID){
 			mainContentLabel = new JLabel(new ImageIcon(Launcher.class.getResource("/images/launcher_bg.png")));
 			JLabel version = new JLabel("Launcher v" + launcherVersion, JLabel.RIGHT);
-			version.setForeground(Color.WHITE);
+			version.setForeground(new Color(0f, 0f, 0f, 0.7f));
 			version.setFont(getDefaultFont(Font.BOLD, 15, 1));
-			version.setBounds(0, 10, 890, 15);
+			version.setBounds(0, height - 15 - 7, width - 8, 15);
 			mainContentLabel.add(version);
 		}else if(menuId == Options.menuID || menuId == About.menuID){
 			mainContentLabel = new JLabel(new ImageIcon(Launcher.class.getResource("/images/launcher_bg_2.png")));
