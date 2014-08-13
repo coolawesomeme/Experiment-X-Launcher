@@ -6,25 +6,31 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
+import java.util.HashMap;
 import java.util.Properties;
 import java.util.Random;
 
 public class Config {
 
-	private static Random random = new Random();
-	public static String username = "Player" + random.nextInt(999);
+	private static HashMap<String, String> configValueMap = new HashMap<String, String>();
 	
 	public Config(){
+		Random random = new Random();
+		configValueMap.put("username", "Player " + random.nextInt(999));
+		
 		if(new File(Launcher.getDirectory() + "/options.properties").exists()){
-			username = getValue("username");
-			validateUsername();
+			for(int i = 0; i<configValueMap.size();i++){
+				configValueMap.put((String) configValueMap.keySet().toArray()[i], getValue((String) configValueMap.keySet().toArray()[i]));
+			}
 		}else{
 			Properties prop = new Properties();
 			OutputStream output = null;
 			try {
 				output = new FileOutputStream(Launcher.getDirectory() + "/options.properties");
 				// set the properties value
-				prop.setProperty("username", username);
+				for(int i = 0; i<configValueMap.size();i++){
+					prop.setProperty((String) configValueMap.keySet().toArray()[i], configValueMap.get(configValueMap.keySet().toArray()[i]));
+				}
 		 
 				// save properties to project root folder
 				prop.store(output, null);
@@ -45,11 +51,12 @@ public class Config {
 		}
 	}
 	
-	//i specifies whether or not to validate username
-	public static void reload(boolean i){
-		username = getValue("username");
-		if(i)
-			validateUsername();
+	public static void reload(boolean validate){
+		for(int i = 0; i<configValueMap.size();i++){
+			configValueMap.put((String) configValueMap.keySet().toArray()[i], getValue((String) configValueMap.keySet().toArray()[i]));
+		}
+		if(validate)
+			validateUsername(configValueMap.get("username"));
 	}
 	
 	private static String getValue(String key){
@@ -63,8 +70,8 @@ public class Config {
 			prop.load(input);
 	 
 			// get the property value and print it out
-			s = prop.getProperty(key);
-	 
+			s = prop.getProperty(key, configValueMap.get(key));
+			
 		} catch (IOException ex) {
 			ex.printStackTrace();
 		} finally {
@@ -88,6 +95,9 @@ public class Config {
 			output = new FileOutputStream(Launcher.getDirectory() + "/options.properties");
 	 
 			// set the properties value
+			for(int i = 0; i < configValueMap.size(); i++){
+				prop.setProperty((String) configValueMap.keySet().toArray()[i], configValueMap.get(configValueMap.keySet().toArray()[i]));
+			}
 			prop.setProperty(key, value);
 	 
 			// save properties to project root folder
@@ -105,10 +115,16 @@ public class Config {
 			}
 	 
 		}
-		reload(false);
+		configValueMap.put(key, value);
 	}
 	
-	private static void validateUsername(){
+	public static String getProperty(String property){
+		if(configValueMap.containsKey(property)) return configValueMap.get(property);
+		else return null;
+	}
+	
+	private static void validateUsername(String username){
+		Random random = new Random();
 		if(username != null){
 			if(username.length() <= 18){
 				if(username.length() > 0){
@@ -119,7 +135,8 @@ public class Config {
 			}else{
 				setValue("username", username.substring(0, 18));
 			}
+		}else{
+			setValue("username", "Player" + random.nextInt(999));
 		}
 	}
-	
 }

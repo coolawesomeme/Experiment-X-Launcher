@@ -63,7 +63,7 @@ public class Options extends Launcher{
 		username.setBounds(120, 72, 165, 30);
 		username.setDocument(new JTextFieldLimit(18));
 		Config.reload(true);
-		username.setText(Config.username);
+		username.setText(Config.getProperty("username"));
 		username.setBackground(new Color(1.0f, 1.0f, 1.0f, 0.7f));
 		mainContentLabel.add(username);
 		

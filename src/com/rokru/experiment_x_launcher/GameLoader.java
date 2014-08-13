@@ -68,7 +68,7 @@ public class GameLoader extends Launcher{
 					Config.setValue("username", JOptionPane.showInputDialog("Please enter a username:"));
 				}
 				dispose();
-				Runtime.getRuntime().exec("java -jar \"" + f.getAbsolutePath() + "\" -user:" + Config.username);
+				Runtime.getRuntime().exec("java -jar \"" + f.getAbsolutePath() + "\" -user:" + Config.getProperty("username"));
 				createLastPlayedFile(q);
 				createLauncherPathFile();
 				System.exit(0);
