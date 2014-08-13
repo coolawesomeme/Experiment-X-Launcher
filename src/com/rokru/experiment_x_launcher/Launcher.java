@@ -51,6 +51,8 @@ public class Launcher extends JFrame implements Runnable{
 		}
 		
 		drawBackground(menuId);
+		if(menuId == menuID)
+			drawButtons();
 		setTitle(launcherVersionFormatted);
 		setIconImage(new ImageIcon(this.getClass().getResource("/images/app_icon.png")).getImage());
 		setSize(new Dimension(width, height));
@@ -60,9 +62,6 @@ public class Launcher extends JFrame implements Runnable{
 		setResizable(false);
 		setVisible(true);
 		mainContentLabel.setLayout(null);
-		
-		if(menuId == menuID)
-			drawButtons();
 		
 		ComponentMover cm = new ComponentMover();
 		cm.registerComponent(this);
