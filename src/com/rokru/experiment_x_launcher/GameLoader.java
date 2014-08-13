@@ -1,8 +1,10 @@
 package com.rokru.experiment_x_launcher;
 
 import java.awt.Color;
+import java.awt.Dimension;
 import java.awt.Font;
 import java.awt.Point;
+import java.awt.Toolkit;
 import java.io.File;
 import java.io.FileWriter;
 
@@ -22,29 +24,8 @@ public class GameLoader extends Launcher{
 	
 	public GameLoader() {
 		super(menuID);
-		loadingLabel = new JLabel("Loading... 0%", JLabel.CENTER);
-		loadingLabel.setBounds(40, 180, 820, 25);
-		loadingLabel.setFont(new Font(this.getFont().getName(), Font.BOLD, 20));
-		loadingLabel.setForeground(new Color(38, 38, 38));
-		mainContentLabel.add(loadingLabel);
-		
-		progress.setMaximum(100);
-		progress.setMinimum(1);
-		progress.setBounds(40, 220, 820, 30);
-		mainContentLabel.add(progress);
-		
-		loadingStatusLabel = new JLabel("", JLabel.CENTER);
-		loadingStatusLabel.setBounds(40, 260, 820, 25);
-		loadingStatusLabel.setFont(new Font(this.getFont().getName(), Font.PLAIN, 16));
-		mainContentLabel.add(loadingStatusLabel);
-		
-		JLabel rMessage = new JLabel(RandomMessage.getRandomMessage(), JLabel.CENTER);
-		rMessage.setBounds(40, 180, 820, height - 10);
-		rMessage.setFont(new Font(this.getFont().getName(), Font.BOLD, 15));
-		rMessage.setForeground(new Color(38, 38, 38));
-		mainContentLabel.add(rMessage);
-		
-		load();
+		Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
+		new GameLoader(new Point(screenSize.width/2 - width/2, screenSize.height/2 - height/2));
 	}
 	
 	public GameLoader(Point point) {

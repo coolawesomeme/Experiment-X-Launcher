@@ -6,6 +6,7 @@ import java.awt.Font;
 import java.awt.GraphicsEnvironment;
 import java.awt.Insets;
 import java.awt.Point;
+import java.awt.Toolkit;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.io.File;
@@ -36,29 +37,8 @@ public class Launcher extends JFrame implements Runnable{
 	protected static int menuID = 0;
 	
 	public Launcher(int menuId) {
-		if(menuId == menuID)
-			setUndecorated(true);
-		try {
-			UIManager.setLookAndFeel(UIManager.getSystemLookAndFeelClassName());
-		} catch (Exception e) {
-			e.printStackTrace();
-		}
-		drawBackground(menuId);
-		setTitle(launcherVersionFormatted);
-		setIconImage(new ImageIcon(Launcher.class.getResource("/images/app_icon.png")).getImage());
-		setSize(new Dimension(width, height));
-		setDefaultCloseOperation(EXIT_ON_CLOSE);
-		getContentPane().add(mainContentLabel);
-		if(menuId == menuID)
-			drawButtons();
-		setLocationRelativeTo(null);
-		setResizable(false);
-		setVisible(true);
-		mainContentLabel.setLayout(null);
-		
-		ComponentMover cm = new ComponentMover();
-		cm.registerComponent(this);
-		cm.setEdgeInsets(new Insets(-1000, -1000, -1000, -1000));
+		Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
+		new Launcher(new Point(screenSize.width/2 - width/2, screenSize.height/2 - height/2), menuId);
 	}
 
 	public Launcher(Point point, int menuId) {
