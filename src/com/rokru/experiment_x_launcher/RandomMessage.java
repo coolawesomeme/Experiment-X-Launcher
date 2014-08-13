@@ -7,11 +7,11 @@ public class RandomMessage {
 	private static String[] protips = {
 			"Protip: Use W, A, S, D to move.",
 			"Protip: If you get stuck on a path, try playing a different path. (NYI)",
-			"Protip: Avoid the void, you will die if you fall into it! (NYI)",
 			"Protip: Try using the mouse! (NYI)" };
 
 	private static String[] splash = { "Help! I'm trapped in a computer game!",
-			"Play it now, play it always!", "Ask your doctor if Experiment X is right for you" };
+			"Play it now, play it always!", "Ask your doctor if Experiment X is right for you",
+			"But who was phone?", "Let's get ready to rumble!", "Better than stale bread!"};
 
 	private static String[] messages = {};
 
@@ -26,7 +26,7 @@ public class RandomMessage {
 	}
 
 	public static String getRandomMessage() {
-		messages = concat(protips, splash);
+		messages = combineArrays(protips, splash);
 		Random random = new Random();
 		return messages[random.nextInt(messages.length)];
 	}
@@ -40,7 +40,7 @@ public class RandomMessage {
 	}
 
 	public static String[] getAllMessages() {
-		messages = concat(protips, splash);
+		messages = combineArrays(protips, splash);
 		return messages;
 	}
 
@@ -62,7 +62,7 @@ public class RandomMessage {
 		splash = splash2;
 	}
 
-	private static String[] concat(String[] A, String[] B) {
+	private static String[] combineArrays(String[] A, String[] B) {
 		int aLen = A.length;
 		int bLen = B.length;
 		String[] C = new String[aLen + bLen];
