@@ -15,8 +15,6 @@ public class GameAutoUpdater {
 	public boolean internetConnection = false;
 	public boolean updatesAvailable = true;
 
-	private static boolean isBeta = false;
-
 	public static String latestVersion;
 	private static String download_url;
 	private String highestVersion;
@@ -80,11 +78,8 @@ public class GameAutoUpdater {
 	public String[] getUpdateFileInfo() {
 		URL url;
 		try {
-			if (!isBeta){ url = new URL(
+			 url = new URL(
 					"https://raw.github.com/coolawesomeme/Experiment-X/master/UPDATE.txt");
-			}else{
-				url = new URL(
-					"https://raw.github.com/coolawesomeme/Experiment-X/master/UPDATE2.txt");}
 			Scanner s = new Scanner(url.openStream());
 			String raw = s.nextLine();
 			internetConnection = true;
