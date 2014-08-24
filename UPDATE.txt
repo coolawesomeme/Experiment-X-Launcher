@@ -1,1 +1,1 @@
-0.0.2|https://google.com
+1.0.0|https://github.com/coolawesomeme/Experiment-X-Launcher/releases/download/v1.0.0/ExperimentXLauncher.jar
