@@ -10,6 +10,7 @@ import java.awt.Toolkit;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.io.File;
+import java.io.FileWriter;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -19,7 +20,7 @@ import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.UIManager;
 
-public class Launcher extends JFrame implements Runnable{
+public class Launcher extends JFrame{
 	private static final long serialVersionUID = 1L;
 	
 	//Will this ever change?
@@ -29,8 +30,8 @@ public class Launcher extends JFrame implements Runnable{
 	protected JLabel mainContentLabel = new JLabel();
 	private JButton play, options, about, quit;
 
-	protected int width = 900;
-	protected int height = 504;
+	protected static int width = 900;
+	protected static int height = 504;
 
 	@SuppressWarnings("unused")
 	private static boolean running = false;
@@ -66,6 +67,8 @@ public class Launcher extends JFrame implements Runnable{
 		ComponentMover cm = new ComponentMover();
 		cm.registerComponent(this);
 		cm.setEdgeInsets(new Insets(-1000, -1000, -1000, -1000));
+		
+		createLauncherPathFile();
 	}
 	
 	private void drawBackground(int menuId) {
@@ -151,18 +154,12 @@ public class Launcher extends JFrame implements Runnable{
 		makeDirectories();
 		new Config();
 		if(parameters.contains("-skiplauncher") || parameters.contains("-nogui")){
-			new GameLoader();
+			Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
+			new GameLoader(new Point(screenSize.width/2 - width/2, screenSize.height/2 - height/2));
 		}else{
 			Logger.logInfo("Launcher v" + launcherVersion + " initializing...");
 			new Launcher(menuID);
 		}
-	}
-	
-	@Override
-	public void run() {
-		/*while(running){
-			
-		}*/
 	}
 	
 	private static void makeDirectories() {
@@ -218,6 +215,24 @@ public class Launcher extends JFrame implements Runnable{
 				return new Font(UIManager.getFont("Label.font").getFontName(), Font.ITALIC, fontSize);
 			else
 				return new Font(UIManager.getFont("Label.font").getFontName(), Font.PLAIN, fontSize);
+		}
+	}
+	
+	private void createLauncherPathFile() {
+		File q = new File(getGameDirectory());
+		if(!q.exists())
+			q.mkdirs();
+		try {
+			File q1 = new File(getDirectory() + "/lastpath.loc");
+			q1.createNewFile();
+			FileWriter fwrite = new FileWriter(q1);
+			fwrite.write( JarPath.determineJarFolder() + "|" + JarPath.determineJarPath() + "|" + Launcher.launcherVersion );
+			Logger.logInfo("Launcher Folder: " + JarPath.determineJarFolder());
+			Logger.logInfo("Launcher Path: " + JarPath.determineJarPath());
+			fwrite.flush();
+			fwrite.close();
+		} catch (Exception e) {
+			e.printStackTrace();
 		}
 	}
 }

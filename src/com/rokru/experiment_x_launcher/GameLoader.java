@@ -22,12 +22,6 @@ public class GameLoader extends Launcher{
 	private JLabel loadingStatusLabel = new JLabel();
 	protected static int menuID = 2;
 	
-	public GameLoader() {
-		super(menuID);
-		Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
-		new GameLoader(new Point(screenSize.width/2 - width/2, screenSize.height/2 - height/2));
-	}
-	
 	public GameLoader(Point point) {
 		super(point, menuID);
 		loadingLabel = new JLabel("Loading... 0%", JLabel.CENTER);
