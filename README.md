@@ -4,4 +4,4 @@ By: coolawesomeme & pacman003
 
 The launcher for the game Experiment X.
 
-Current version: **v0.0.2**
+Current version: **v1.0.0**
