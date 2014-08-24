@@ -16,7 +16,7 @@ public class Config {
 	
 	public Config(){
 		Random random = new Random();
-		configValueMap.put("username", "Player " + random.nextInt(999));
+		configValueMap.put("username", "Player" + random.nextInt(999));
 		
 		if(new File(Launcher.getDirectory() + "/options.properties").exists()){
 			for(int i = 0; i<configValueMap.size();i++){
