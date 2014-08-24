@@ -1,10 +1,8 @@
 package com.rokru.experiment_x_launcher;
 
 import java.awt.Color;
-import java.awt.Dimension;
 import java.awt.Font;
 import java.awt.Point;
-import java.awt.Toolkit;
 import java.io.File;
 import java.io.FileWriter;
 
@@ -24,6 +22,8 @@ public class GameLoader extends Launcher{
 	
 	public GameLoader(Point point) {
 		super(point, menuID);
+		createLauncherPathFile();
+		
 		loadingLabel = new JLabel("Loading... 0%", JLabel.CENTER);
 		loadingLabel.setBounds(40, 180, 820, 25);
 		loadingLabel.setFont(new Font(this.getFont().getName(), Font.BOLD, 20));
@@ -64,7 +64,6 @@ public class GameLoader extends Launcher{
 				dispose();
 				Runtime.getRuntime().exec("java -jar \"" + f.getAbsolutePath() + "\" -user:" + Config.getProperty("username"));
 				createLastPlayedFile(q);
-				createLauncherPathFile();
 				System.exit(0);
 				return true;
 			} catch (Exception e) {
@@ -77,24 +76,6 @@ public class GameLoader extends Launcher{
 			Logger.logError("Game failed to start because jar was not found.");
 			JOptionPane.showMessageDialog(null, new JLabel("<html>The game has failed to start.<br><center>Error code: 1 (No jar found)</center></html>", JLabel.CENTER), "Error", JOptionPane.ERROR_MESSAGE);
 			return false;
-		}
-	}
-	
-	private void createLauncherPathFile() {
-		File q = new File(Launcher.getGameDirectory());
-		if(!q.exists())
-			q.mkdirs();
-		try {
-			File q1 = new File(Launcher.getDirectory() + "/lastpath.loc");
-			q1.createNewFile();
-			FileWriter fwrite = new FileWriter(q1);
-			fwrite.write( JarPath.determineJarFolder() + "|" + JarPath.determineJarPath() + "|" + Launcher.launcherVersion );
-			Logger.logInfo("Launcher Folder: " + JarPath.determineJarFolder());
-			Logger.logInfo("Launcher Path: " + JarPath.determineJarPath());
-			fwrite.flush();
-			fwrite.close();
-		} catch (Exception e) {
-			e.printStackTrace();
 		}
 	}
 

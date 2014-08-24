@@ -218,12 +218,12 @@ public class Launcher extends JFrame{
 		}
 	}
 	
-	private void createLauncherPathFile() {
+	public static void createLauncherPathFile() {
 		File q = new File(getGameDirectory());
 		if(!q.exists())
 			q.mkdirs();
 		try {
-			File q1 = new File(getDirectory() + "/lastpath.loc");
+			File q1 = new File(getDirectory() + "/launcher_path.loc");
 			q1.createNewFile();
 			FileWriter fwrite = new FileWriter(q1);
 			fwrite.write( JarPath.determineJarFolder() + "|" + JarPath.determineJarPath() + "|" + Launcher.launcherVersion );
