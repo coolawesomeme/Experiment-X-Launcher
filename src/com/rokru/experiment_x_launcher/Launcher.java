@@ -24,7 +24,7 @@ public class Launcher extends JFrame{
 	private static final long serialVersionUID = 1L;
 	
 	//Will this ever change?
-	public static String launcherVersion = "0.0.2";
+	public static String launcherVersion = "1.0.0";
 	public static String launcherVersionFormatted = "Experiment X Launcher - v" + launcherVersion;
 
 	protected JLabel mainContentLabel = new JLabel();
