@@ -1,5 +1,6 @@
 package com.rokru.experiment_x_launcher;
 
+import java.awt.Cursor;
 import java.awt.Font;
 import java.awt.Point;
 import java.awt.event.ActionEvent;
@@ -57,6 +58,7 @@ public class About extends Launcher{
 		OK = new JButton("OK");
 		OK.setBounds(width - 60 - 20, (height - 40 - 40), 60, 40);
 		mainContentLabel.add(OK);
+		OK.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
 
 		OK.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {

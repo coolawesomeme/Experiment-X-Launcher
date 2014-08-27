@@ -2,6 +2,7 @@ package com.rokru.experiment_x_launcher;
 
 import java.awt.AlphaComposite;
 import java.awt.Color;
+import java.awt.Cursor;
 import java.awt.Font;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
@@ -58,6 +59,7 @@ public class Options extends Launcher{
 		OK = new JButton("OK");
 		OK.setBounds(width - 60 - 20, (height - 40 - 40), 60, 40);
 		mainContentLabel.add(OK);
+		OK.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
 
 		username = new TransparentTextField("Player");
 		username.setBounds(120, 72, 165, 30);
@@ -70,6 +72,7 @@ public class Options extends Launcher{
 		OK.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
 				Config.setValue("username", username.getText());
+				Logger.logPropertyChange("username", username.getText());
 				Logger.logButtonEvent("OK");
 				dispose();
 				new Launcher(getLocation(), Launcher.menuID);
@@ -90,6 +93,8 @@ class JTextFieldLimit extends PlainDocument {
 	  public void insertString( int offset, String  str, AttributeSet attr ) throws BadLocationException {
 	    if (str == null) return;
 
+	    if(str.matches("[^a-zA-Z0-9]")){return;}
+	    
 	    if ((getLength() + str.length()) <= limit) {
 	      super.insertString(offset, str, attr);
 	    }

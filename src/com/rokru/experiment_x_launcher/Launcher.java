@@ -1,6 +1,7 @@
 package com.rokru.experiment_x_launcher;
 
 import java.awt.Color;
+import java.awt.Cursor;
 import java.awt.Dimension;
 import java.awt.Font;
 import java.awt.GraphicsEnvironment;
@@ -67,8 +68,6 @@ public class Launcher extends JFrame{
 		ComponentMover cm = new ComponentMover();
 		cm.registerComponent(this);
 		cm.setEdgeInsets(new Insets(-1000, -1000, -1000, -1000));
-		
-		createLauncherPathFile();
 	}
 	
 	private void drawBackground(int menuId) {
@@ -89,6 +88,7 @@ public class Launcher extends JFrame{
 		play.setBounds((width / 2 - 390 / 2), (height - 50 - 40), 390,
 				50);
 		mainContentLabel.add(play);
+		play.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
 
 		int normalButtonHeight = 40;
 
@@ -96,16 +96,21 @@ public class Launcher extends JFrame{
 		options.setBounds((width / 2 - 390 / 2) - 20 - 220, (height - normalButtonHeight - 45),
 				220, normalButtonHeight);
 		mainContentLabel.add(options);
+		options.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
 		
 		quit = new JButton("Quit");
 		quit.setBounds((width / 2 + 390 / 2) + 140,
 				(height - normalButtonHeight - 45), 100, normalButtonHeight);
 		mainContentLabel.add(quit);
+		quit.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
 
 		about = new JButton("About");
 		about.setBounds((width / 2 + 390 / 2) + 20, (height
 				- normalButtonHeight - 45), 100, normalButtonHeight);
 		mainContentLabel.add(about);
+		about.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
+		
+		this.getRootPane().setDefaultButton(play);
 		
 		validate();
 		
@@ -113,7 +118,7 @@ public class Launcher extends JFrame{
 			public void actionPerformed(ActionEvent arg0) {
 				Logger.logButtonEvent("Play");
 				dispose();
-				new GameLoader(getLocation());
+				new GameLoader(getLocation(), false);
 			}
 		});
 		
@@ -155,10 +160,11 @@ public class Launcher extends JFrame{
 		new Config();
 		if(parameters.contains("-skiplauncher") || parameters.contains("-nogui")){
 			Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
-			new GameLoader(new Point(screenSize.width/2 - width/2, screenSize.height/2 - height/2));
+			new GameLoader(new Point(screenSize.width/2 - width/2, screenSize.height/2 - height/2), true);
 		}else{
 			Logger.logInfo("Launcher v" + launcherVersion + " initializing...");
 			new Launcher(menuID);
+			createLauncherPathFile();
 		}
 	}
 	

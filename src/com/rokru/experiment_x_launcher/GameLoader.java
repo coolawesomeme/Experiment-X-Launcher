@@ -20,9 +20,11 @@ public class GameLoader extends Launcher{
 	private JLabel loadingStatusLabel = new JLabel();
 	protected static int menuID = 2;
 	
-	public GameLoader(Point point) {
+	public GameLoader(Point point, boolean skippedLauncher) {
 		super(point, menuID);
-		createLauncherPathFile();
+		
+		if(skippedLauncher)
+			createLauncherPathFile();
 		
 		loadingLabel = new JLabel("Loading... 0%", JLabel.CENTER);
 		loadingLabel.setBounds(40, 180, 820, 25);

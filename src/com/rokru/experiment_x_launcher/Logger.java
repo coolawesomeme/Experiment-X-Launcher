@@ -10,6 +10,10 @@ public class Logger {
 		System.out.println("[ERROR] " + message);
 	}
 	
+	public static void logPropertyChange(String property, String value){
+		System.out.println("[PROPERTY] '" + property + "': " + value);
+	}
+	
 	public static void logButtonEvent(String buttonName){
 		System.out.println("[ACTION] Button Activated: " + buttonName);
 	}

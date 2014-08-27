@@ -128,7 +128,10 @@ public class Config {
 		if(username != null){
 			if(username.length() <= 18){
 				if(username.length() > 0){
-					return;
+					if(!username.matches("[^a-zA-Z0-9]"))
+						return;
+					else 
+						setValue("username", "Player" + random.nextInt(999));
 				}else{
 					setValue("username", "Player" + random.nextInt(999));
 				}
