@@ -84,7 +84,7 @@ public class Launcher extends JFrame{
 	}
 
 	private void drawButtons() {
-		play = new JButton("Play!");
+		play = new JButton("Launch!");
 		play.setBounds((width / 2 - 390 / 2), (height - 50 - 40), 390,
 				50);
 		mainContentLabel.add(play);
@@ -116,7 +116,7 @@ public class Launcher extends JFrame{
 		
 		play.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
-				Logger.logButtonEvent("Play");
+				Logger.logButtonEvent("Launch");
 				dispose();
 				new GameLoader(getLocation(), false);
 			}

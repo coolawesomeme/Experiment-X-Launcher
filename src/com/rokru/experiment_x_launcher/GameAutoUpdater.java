@@ -17,7 +17,7 @@ public class GameAutoUpdater {
 
 	public static String latestVersion;
 	private static String download_url;
-	private String highestVersion;
+	public String highestVersion;
 
 	private int vMajor = 0;
 	private int vMinor = 0;

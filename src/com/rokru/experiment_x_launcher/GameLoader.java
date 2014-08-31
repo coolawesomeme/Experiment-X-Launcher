@@ -113,11 +113,11 @@ public class GameLoader extends Launcher{
 	        	                	loadingStatusLabel.setText("Checking for existing versions...");
 	        	                }else if(percent == 50){
 	        	                	if(updater.internetConnection && updater.updatesAvailable)
-	        	                		loadingStatusLabel.setText("Downloading & launching most recent update...");
+	        	                		loadingStatusLabel.setText("Downloading & launching v" + GameAutoUpdater.latestVersion + "...");
 	        	                	else if(updater.internetConnection && !updater.updatesAvailable && updater.versionsOnDisk)
-	        	                		loadingStatusLabel.setText("Launching game...");
+	        	                		loadingStatusLabel.setText("Launching game (v" + updater.highestVersion + ")...");
 	        	                	else if(!updater.internetConnection && updater.versionsOnDisk)
-	        	                		loadingStatusLabel.setText("No internet connection. Launching most recent version...");
+	        	                		loadingStatusLabel.setText("No internet connection. Launching v" + updater.highestVersion + "...");
 	        	                	else
 	        	                		loadingStatusLabel.setText("");
 	        	                }
