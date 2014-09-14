@@ -85,28 +85,32 @@ public class Launcher extends JFrame{
 
 	private void drawButtons() {
 		play = new JButton("Launch!");
-		play.setBounds((width / 2 - 390 / 2), (height - 50 - 40), 390,
-				50);
+		play.setBounds((width / 2 - 390 / 2), (height - 60 - 35), 390,
+				60);
+		play.setUI(new XButtonUI("launch"));
 		mainContentLabel.add(play);
 		play.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
 
-		int normalButtonHeight = 40;
+		int normalButtonHeight = 50;
 
 		options = new JButton("Options");
-		options.setBounds((width / 2 - 390 / 2) - 20 - 220, (height - normalButtonHeight - 45),
+		options.setBounds((width / 2 - 390 / 2) - 20 - 220, (height - normalButtonHeight - 40),
 				220, normalButtonHeight);
+		options.setUI(new XButtonUI("options"));
 		mainContentLabel.add(options);
 		options.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
 		
 		quit = new JButton("Quit");
 		quit.setBounds((width / 2 + 390 / 2) + 140,
-				(height - normalButtonHeight - 45), 100, normalButtonHeight);
+				(height - normalButtonHeight - 40), 100, normalButtonHeight);
+		quit.setUI(new XButtonUI("quit"));
 		mainContentLabel.add(quit);
 		quit.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
 
 		about = new JButton("About");
 		about.setBounds((width / 2 + 390 / 2) + 20, (height
-				- normalButtonHeight - 45), 100, normalButtonHeight);
+				- normalButtonHeight - 40), 100, normalButtonHeight);
+		about.setUI(new XButtonUI("about"));
 		mainContentLabel.add(about);
 		about.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
 		

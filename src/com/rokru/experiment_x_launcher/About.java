@@ -56,7 +56,8 @@ public class About extends Launcher{
 
 	private void drawButtons(){
 		OK = new JButton("OK");
-		OK.setBounds(width - 60 - 20, (height - 40 - 40), 60, 40);
+		OK.setBounds(width - 60 - 20, (height - 50 - 45), 60, 50);
+		OK.setUI(new XButtonUI("ok"));
 		mainContentLabel.add(OK);
 		OK.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
 
