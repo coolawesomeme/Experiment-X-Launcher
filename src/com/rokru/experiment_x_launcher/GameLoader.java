@@ -111,14 +111,21 @@ public class GameLoader extends Launcher{
 	                        	Logger.logInfo("Loaded " + percent + "%");
 	                        	if(percent == 0){
 	        	                	loadingStatusLabel.setText("Checking for existing versions...");
+	        	                	Logger.logInfo("Checking for existing versions...");
 	        	                }else if(percent == 50){
-	        	                	if(updater.internetConnection && updater.updatesAvailable)
+	        	                	if(updater.internetConnection && updater.updatesAvailable){
 	        	                		loadingStatusLabel.setText("Downloading & launching v" + GameAutoUpdater.latestVersion + "...");
-	        	                	else if(updater.internetConnection && !updater.updatesAvailable && updater.versionsOnDisk)
+	        	                		Logger.logInfo("Internet Connection: " + updater.internetConnection + " | Updates Available: " + updater.updatesAvailable);
+	        	                		Logger.logInfo("Downloading & launching v" + GameAutoUpdater.latestVersion + "...");
+	        	                	}else if(updater.internetConnection && !updater.updatesAvailable && updater.versionsOnDisk){
 	        	                		loadingStatusLabel.setText("Launching game (v" + updater.highestVersion + ")...");
-	        	                	else if(!updater.internetConnection && updater.versionsOnDisk)
+	        	                		Logger.logInfo("Internet Connection: " + updater.internetConnection + " | Updates Available: " + updater.updatesAvailable + " | Versions on disk: " + updater.versionsOnDisk);
+	        	                		Logger.logInfo("Launching game (v" + updater.highestVersion + ")...");
+	        	                	}else if(!updater.internetConnection && updater.versionsOnDisk){
 	        	                		loadingStatusLabel.setText("No internet connection. Launching v" + updater.highestVersion + "...");
-	        	                	else
+	        	                		Logger.logInfo("Internet Connection: " + updater.internetConnection + " | Versions on disk: " + updater.versionsOnDisk);
+	        	                		Logger.logInfo("No internet connection. Launching v" + updater.highestVersion + "...");
+	        	                	}else
 	        	                		loadingStatusLabel.setText("");
 	        	                }
 	                        }
@@ -138,7 +145,7 @@ public class GameLoader extends Launcher{
 	                	{JOptionPane.showMessageDialog(null, new JLabel("The game cannot be downloaded without an internet connection.", JLabel.CENTER), "Error", JOptionPane.ERROR_MESSAGE);}
 	                }else{
 	                	try {
-	                   		Thread.sleep(100);
+	                   		Thread.sleep(65);
 	                	} catch (InterruptedException e) {}
 	                }	
 	            }
