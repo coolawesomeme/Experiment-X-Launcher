@@ -11,7 +11,7 @@ public class RandomMessage {
 
 	private static String[] splash = { "Help! I'm trapped in a computer game!",
 			"Play it now, play it always!", "Ask your doctor if Experiment X is right for you",
-			"But who was phone?", "Let's get ready to rumble!", "Better than stale bread!"};
+			"But who was phone?", "Let's get ready to rumble!", "Slightly better than stale bread!"};
 
 	private static String[] messages = {};
 
