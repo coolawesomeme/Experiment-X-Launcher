@@ -156,18 +156,19 @@ public class Launcher extends JFrame{
 			parameters.add(s);
 		}
 		if(parameters.contains("-v") || parameters.contains("-version")){
-			System.out.println(launcherVersion);
+			Logger.logPlain(launcherVersion);
 			System.exit(0);
 		}
 		makeDirectories();
 		new Config();
 		if(parameters.contains("-skiplauncher") || parameters.contains("-nogui")){
 			Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
+			createLauncherPathFile();
 			new GameLoader(new Point(screenSize.width/2 - width/2, screenSize.height/2 - height/2), true);
 		}else{
 			Logger.logInfo("Launcher v" + launcherVersion + " initializing...");
-			new Launcher(menuID);
 			createLauncherPathFile();
+			new Launcher(menuID);
 		}
 	}
 	
@@ -235,7 +236,7 @@ public class Launcher extends JFrame{
 			File q1 = new File(getDirectory() + "/launcher_path.loc");
 			q1.createNewFile();
 			FileWriter fwrite = new FileWriter(q1);
-			fwrite.write( JarPath.determineJarFolder() + "|" + JarPath.determineJarPath() + "|" + Launcher.launcherVersion );
+			fwrite.write(JarPath.determineJarFolder() + "|" + JarPath.determineJarPath() + "|" + Launcher.launcherVersion );
 			Logger.logInfo("Launcher Folder: " + JarPath.determineJarFolder());
 			Logger.logInfo("Launcher Path: " + JarPath.determineJarPath());
 			fwrite.flush();

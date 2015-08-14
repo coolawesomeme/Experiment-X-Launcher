@@ -70,12 +70,12 @@ public class GameLoader extends Launcher{
 				return true;
 			} catch (Exception e) {
 				e.printStackTrace();
-				Logger.logError("Game failed to start.");
+				Logger.logError("Game failed to start.", 3);
 				JOptionPane.showMessageDialog(null, new JLabel("The game has failed to start.", JLabel.CENTER), "Error", JOptionPane.ERROR_MESSAGE);
 				return false;
 			}
 		}else{
-			Logger.logError("Game failed to start because jar was not found.");
+			Logger.logError("Game failed to start because jar was not found.", 3);
 			JOptionPane.showMessageDialog(null, new JLabel("<html>The game has failed to start.<br><center>Error code: 1 (No jar found)</center></html>", JLabel.CENTER), "Error", JOptionPane.ERROR_MESSAGE);
 			return false;
 		}
